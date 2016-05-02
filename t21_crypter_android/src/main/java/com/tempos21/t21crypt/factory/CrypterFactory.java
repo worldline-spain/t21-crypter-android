@@ -6,16 +6,17 @@ import com.tempos21.t21crypt.crypter.Crypter;
 import com.tempos21.t21crypt.exception.CrypterException;
 
 /**
- * Factory that constructs a Crypter based on a @CryptMethod.
+ * Factory that constructs a {@link Crypter} based on a {@link CryptMethod}.
  */
 public class CrypterFactory {
 
     /**
-     * Builds a @Crypter based on the @CryptMethod specified.
+     * Builds a {@link Crypter} based on the {@link CryptMethod} specified.
      *
-     * @param method @CryptMethod to construct the @Crypter
+     * @param method {@link CryptMethod} to construct the {@link Crypter}
+     * @param key String key that will be used to encrypt and decrypt.
      *
-     * @return an implementation of @Crypter
+     * @return an implementation of {@link Crypter}
      */
     public static Crypter buildCrypter(CryptMethod method, String key) throws CrypterException {
         Crypter crypter = null;

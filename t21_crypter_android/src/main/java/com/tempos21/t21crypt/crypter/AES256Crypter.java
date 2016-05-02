@@ -22,13 +22,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 /**
  * AES256 Crypter. Encrypts and decrypts a string based on a key.</br></br>
- * <p/>
+ *
  * This class needs a key in order to encrypt and decrypt the String, this key can be any length
- * and
- * </br>
- * the complexity of it is up to the user. We recommend a key of 15 chars length with lower and
- * </br>
- * upper case, numbers and special characters.
+ * and the complexity of it is up to the user. We recommend a key of 15 chars length with lower and upper case, numbers and
+ * special characters.
  */
 public class AES256Crypter implements Crypter {
 
@@ -54,10 +51,10 @@ public class AES256Crypter implements Crypter {
 
     /**
      * Creates an instance of AES256 crypter.
-     * <p/>
+     *
      * NOTE: By default, Java restricts key size to 128 bits. Nowadays this restriction is questionable, in order to remove this
      * restriction you should install these packages:
-     * <p/>
+     *
      * http://www.oracle.com/technetwork/java/javase/downloads/jce-6-download-429243.html
      * http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html
      * http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
