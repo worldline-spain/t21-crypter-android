@@ -1,0 +1,5 @@
+<resources>
+    <string name="appName">T21 Crypter</string>
+    <string name="encrypt">Encrypt</string>
+    <string name="decrypt">Decrypt</string>
+</resources>

@@ -3,6 +3,7 @@ package com.tempos21.t21crypt.factory;
 
 import com.tempos21.t21crypt.crypter.AES256Crypter;
 import com.tempos21.t21crypt.crypter.Crypter;
+import com.tempos21.t21crypt.exception.CrypterException;
 
 /**
  * Factory that constructs a Crypter based on a @CryptMethod.
@@ -16,16 +17,18 @@ public class CrypterFactory {
      *
      * @return an implementation of @Crypter
      */
-    public static Crypter buildCrypter(CryptMethod method) {
+    public static Crypter buildCrypter(CryptMethod method, String key) throws CrypterException {
         Crypter crypter = null;
 
-        switch (method) {
-            case AES256:
-                crypter = new AES256Crypter();
-                break;
+        if (method != null) {
+            switch (method) {
+                case AES256:
+                    crypter = AES256Crypter.getInstance(key);
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
 
         return crypter;

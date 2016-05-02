@@ -1,5 +1,16 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+ext {
+    configuration = [
+            compileVersion      : 21,
+            buildToolsVersion   : "22.0.1",
+            minSdk              : 8,
+            targetSdk           : 21,
+            version_code        : 4,
+            version_name        : "1.0.4"
+    ]
+}
+
 buildscript {
     repositories {
         jcenter()

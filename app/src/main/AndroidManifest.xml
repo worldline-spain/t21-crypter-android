@@ -1,6 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="tempos21.com.t21crypt">
+          package="tempos21.com.t21crypt">
 
-    <application />
+    <application>
+        <activity
+                android:label="@string/appName"
+                android:name="com.tempos21.t21crypt.app.MainActivity"
+                android:theme="@style/Theme.AppCompat.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
 
 </manifest>
