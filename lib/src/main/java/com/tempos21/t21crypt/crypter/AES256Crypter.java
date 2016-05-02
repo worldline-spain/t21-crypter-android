@@ -12,7 +12,6 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -53,8 +52,6 @@ public class AES256Crypter implements Crypter {
 
     private SecretKeySpec secretKeySpec;
 
-    private AlgorithmParameterSpec ivSpec;
-
     /**
      * Creates an instance of AES256 crypter.
      * <p/>
@@ -90,15 +87,14 @@ public class AES256Crypter implements Crypter {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException e) {
             throw new CrypterException(e.getMessage());
         }
-        ivSpec = getIvParameterSpec();
     }
 
     /**
      * Encrypts a String.
      *
-     * @param plainText String to be encrypted
+     * @param plainText String to be encrypted.
      *
-     * @return String encrypted based on the key and plainText
+     * @return String encrypted based on the key and plainText.
      */
     @Override
     public String encrypt(String plainText) throws EncrypterException {
@@ -110,9 +106,19 @@ public class AES256Crypter implements Crypter {
         }
 
         try {
+            // Generate a random IV
+            IvParameterSpec ivSpec = getIvParameterSpec(createRandomIvBytes());
+
             cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivSpec);
             encryptedBytes = cipher.doFinal(plainText.getBytes(ENCODING));
-            encryptedString = new String(Base64.encodeBase64(encryptedBytes), ENCODING);
+
+            // Join IV + encrypted text
+            int totalLength = cipher.getBlockSize() + encryptedBytes.length;
+            final byte[] finalEncryptedBytes = new byte[totalLength];
+            System.arraycopy(ivSpec.getIV(), 0, finalEncryptedBytes, 0, cipher.getBlockSize());
+            System.arraycopy(encryptedBytes, 0, finalEncryptedBytes, cipher.getBlockSize(), encryptedBytes.length);
+
+            encryptedString = new String(Base64.encodeBase64(finalEncryptedBytes), ENCODING);
         } catch (InvalidKeyException e) {
             throw new EncrypterException(KEY_INVALID_SIZE);
         } catch (UnsupportedEncodingException | BadPaddingException | IllegalBlockSizeException |
@@ -124,11 +130,11 @@ public class AES256Crypter implements Crypter {
     }
 
     /**
-     * Decrypts a String with the passed key
+     * Decrypts a String with the passed key.
      *
-     * @param cryptedText String to be decrypted
+     * @param cryptedText String to be decrypted.
      *
-     * @return String decrypted based on the key and cryptedText
+     * @return String decrypted based on the key and cryptedText.
      */
     @Override
     public String decrypt(String cryptedText) throws DecrypterException {
@@ -141,8 +147,17 @@ public class AES256Crypter implements Crypter {
 
         try {
             byte[] cryptedTextBytes = Base64.decodeBase64(cryptedText.getBytes(ENCODING));
-            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivSpec);
-            decryptedBytes = cipher.doFinal(cryptedTextBytes);
+
+            // Split IV from text
+            byte[] ivBytes = new byte[cipher.getBlockSize()];
+            int cryptedTextBytesLength = cryptedTextBytes.length - cipher.getBlockSize();
+            byte[] finalCryptedTextBytes = new byte[cryptedTextBytesLength];
+            System.arraycopy(cryptedTextBytes, 0, ivBytes, 0, cipher.getBlockSize());
+            System.arraycopy(cryptedTextBytes, cipher.getBlockSize(), finalCryptedTextBytes, 0, cryptedTextBytesLength);
+            IvParameterSpec ivParameterSpec = getIvParameterSpec(ivBytes);
+
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
+            decryptedBytes = cipher.doFinal(finalCryptedTextBytes);
             decryptedToken = new String(decryptedBytes, ENCODING);
         } catch (InvalidKeyException e) {
             throw new DecrypterException(KEY_INVALID_SIZE + " - Error message: " + e.getMessage());
@@ -169,16 +184,44 @@ public class AES256Crypter implements Crypter {
         return keyBytes;
     }
 
-    private IvParameterSpec getIvParameterSpec() {
-        byte[] iv = new byte[cipher.getBlockSize()];
-        new SecureRandom().nextBytes(iv);
+    /**
+     * Creates a IV parameter spec from the passed bytes.
+     *
+     * @param iv byte array representing IV.
+     *
+     * @return a generated {@link IvParameterSpec}.
+     */
+    private IvParameterSpec getIvParameterSpec(byte[] iv) {
         return new IvParameterSpec(iv);
     }
 
+    /**
+     * Creates a random byte array.
+     *
+     * @return random byte array generated.
+     */
+    private byte[] createRandomIvBytes() {
+        byte[] iv = new byte[cipher.getBlockSize()];
+        new SecureRandom().nextBytes(iv);
+        return iv;
+    }
+
+    /**
+     * Gets the instance of a AES256 cipher.
+     *
+     * @return an instance of {@link Cipher}.
+     */
     private Cipher getCipher() throws NoSuchAlgorithmException, NoSuchPaddingException {
         return Cipher.getInstance(AES_TRANSFORMATION);
     }
 
+    /**
+     * Creates a {@link SecretKeySpec} object based on the passed key byte array.
+     *
+     * @param keyBytes key byte array.
+     *
+     * @return the generated {@link SecretKeySpec}.
+     */
     private SecretKeySpec getKey(byte[] keyBytes) {
         return new SecretKeySpec(keyBytes, AES_KEY_ALGORITHM);
     }
