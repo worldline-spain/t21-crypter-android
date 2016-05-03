@@ -37,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
         encryptBtn = (Button) findViewById(R.id.encryptBtn);
 
         try {
-            final Crypter crypter = CrypterFactory.buildCrypter(CryptMethod.AES256, KEY_TOKEN);
+            final Crypter crypter = CrypterFactory.buildCrypter(CryptMethod.AES, KEY_TOKEN);
             encryptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

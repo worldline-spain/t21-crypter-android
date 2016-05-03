@@ -1,7 +1,7 @@
 package com.tempos21.t21crypt.factory;
 
 
-import com.tempos21.t21crypt.crypter.AES256Crypter;
+import com.tempos21.t21crypt.crypter.AESCrypter;
 import com.tempos21.t21crypt.crypter.Crypter;
 import com.tempos21.t21crypt.exception.CrypterException;
 
@@ -23,8 +23,8 @@ public class CrypterFactory {
 
         if (method != null) {
             switch (method) {
-                case AES256:
-                    crypter = AES256Crypter.getInstance(key);
+                case AES:
+                    crypter = AESCrypter.getInstance(key);
                     break;
 
                 default:

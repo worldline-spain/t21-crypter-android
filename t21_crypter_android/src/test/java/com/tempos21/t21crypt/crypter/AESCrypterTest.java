@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class AES256CrypterTest {
+public class AESCrypterTest {
 
     private static final String KEY = "validKey";
 
@@ -31,17 +31,17 @@ public class AES256CrypterTest {
             + "nputverylonginputverylonginputverylonginputverylonginputverylonginputverylonginputverylonginputverylonginputverylo"
             + "nginputverylonginputverylonginputverylonginputverylonginputverylonginputverylonginputverylonginputverylonginput";
 
-    private AES256Crypter crypter;
+    private AESCrypter crypter;
 
     @Before
     public void setUp() throws Exception {
-        crypter = AES256Crypter.getInstance(KEY);
+        crypter = AESCrypter.getInstance(KEY);
 
     }
 
     @Test(expected = CrypterException.class)
     public void shouldCrypterReturnEncrypterExceptionWhenNullKey() throws Exception {
-        AES256Crypter.getInstance(null);
+        AESCrypter.getInstance(null);
     }
 
     @Test(expected = EncrypterException.class)
@@ -134,9 +134,9 @@ public class AES256CrypterTest {
     public void shouldDifferentCryptersReturnExpectedValueWhenEmptyInput() throws Exception {
         String whatIWantToTest = INPUT_1;
 
-        AES256Crypter crypterInput = AES256Crypter.getInstance(KEY);
+        AESCrypter crypterInput = AESCrypter.getInstance(KEY);
         String encryptedString = crypterInput.encrypt(whatIWantToTest);
-        AES256Crypter crypterOutput = AES256Crypter.getInstance(KEY);
+        AESCrypter crypterOutput = AESCrypter.getInstance(KEY);
         String decryptedString = crypterOutput.decrypt(encryptedString);
 
         assertEquals(whatIWantToTest, decryptedString);
@@ -146,9 +146,9 @@ public class AES256CrypterTest {
     public void shouldDifferentCryptersReturnExpectedValueWhenSpecialCharsInput() throws Exception {
         String whatIWantToTest = INPUT_2;
 
-        AES256Crypter crypterInput = AES256Crypter.getInstance(KEY);
+        AESCrypter crypterInput = AESCrypter.getInstance(KEY);
         String encryptedString = crypterInput.encrypt(whatIWantToTest);
-        AES256Crypter crypterOutput = AES256Crypter.getInstance(KEY);
+        AESCrypter crypterOutput = AESCrypter.getInstance(KEY);
         String decryptedString = crypterOutput.decrypt(encryptedString);
 
         assertEquals(whatIWantToTest, decryptedString);
@@ -158,9 +158,9 @@ public class AES256CrypterTest {
     public void shouldDifferentCryptersReturnExpectedValueWhenLongInput() throws Exception {
         String whatIWantToTest = INPUT_3;
 
-        AES256Crypter crypterInput = AES256Crypter.getInstance(KEY);
+        AESCrypter crypterInput = AESCrypter.getInstance(KEY);
         String encryptedString = crypterInput.encrypt(whatIWantToTest);
-        AES256Crypter crypterOutput = AES256Crypter.getInstance(KEY);
+        AESCrypter crypterOutput = AESCrypter.getInstance(KEY);
         String decryptedString = crypterOutput.decrypt(encryptedString);
 
         assertEquals(whatIWantToTest, decryptedString);

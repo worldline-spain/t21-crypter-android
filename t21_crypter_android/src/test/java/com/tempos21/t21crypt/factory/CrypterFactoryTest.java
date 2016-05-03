@@ -1,6 +1,6 @@
 package com.tempos21.t21crypt.factory;
 
-import com.tempos21.t21crypt.crypter.AES256Crypter;
+import com.tempos21.t21crypt.crypter.AESCrypter;
 import com.tempos21.t21crypt.crypter.Crypter;
 
 import org.junit.Test;
@@ -13,11 +13,11 @@ public class CrypterFactoryTest {
 
     private static final String KEY = "randomKey";
 
-    private static final CryptMethod VALID_CRYPT_METHOD = CryptMethod.AES256;
+    private static final CryptMethod VALID_CRYPT_METHOD = CryptMethod.AES;
 
     private static final CryptMethod NULL_CRYPT_METHOD = null;
 
-    private static final CryptMethod CRYPT_METHOD_AES256 = CryptMethod.AES256;
+    private static final CryptMethod CRYPT_METHOD_AES256 = CryptMethod.AES;
 
     @Test
     public void shouldBuildCrypterReturnNotNullWhenValidCryptMethod() throws Exception {
@@ -37,6 +37,6 @@ public class CrypterFactoryTest {
     public void shouldBuildCrypterReturnInstanceOfAES256CrypterWhenAES256CryptMethod() throws Exception {
         Crypter crypter = CrypterFactory.buildCrypter(CRYPT_METHOD_AES256, KEY);
 
-        assertTrue(crypter instanceof AES256Crypter);
+        assertTrue(crypter instanceof AESCrypter);
     }
 }

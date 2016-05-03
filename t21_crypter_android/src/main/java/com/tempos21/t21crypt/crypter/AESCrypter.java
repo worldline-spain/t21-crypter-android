@@ -21,13 +21,13 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * AES256 Crypter. Encrypts and decrypts a string based on a key.</br></br>
+ * AES Crypter. Encrypts and decrypts a string based on a key.</br></br>
  *
  * This class needs a key in order to encrypt and decrypt the String, this key can be any length
  * and the complexity of it is up to the user. We recommend a key of 15 chars length with lower and upper case, numbers and
  * special characters.
  */
-public class AES256Crypter implements Crypter {
+public class AESCrypter implements Crypter {
 
     private static final String AES_KEY_ALGORITHM = "AES";
 
@@ -43,14 +43,14 @@ public class AES256Crypter implements Crypter {
 
     private static final String KEY_INVALID_SIZE = "Invalid key? Have you tried to install JCE? Take a look to Javadoc :)";
 
-    private static AES256Crypter INSTANCE;
+    private static AESCrypter INSTANCE;
 
     private Cipher cipher;
 
     private SecretKeySpec secretKeySpec;
 
     /**
-     * Creates an instance of AES256 crypter.
+     * Creates an instance of AES crypter.
      *
      * NOTE: By default, Java restricts key size to 128 bits. Nowadays this restriction is questionable, in order to remove this
      * restriction you should install these packages:
@@ -61,23 +61,23 @@ public class AES256Crypter implements Crypter {
      *
      * @param key String password to use for the en/decrypt the desired text.
      *
-     * @return and instance of {@link AES256Crypter}
+     * @return and instance of {@link AESCrypter}
      *
      * @throws CrypterException exception if NoSuchAlgorithmException | NoSuchPaddingException | UnsupportedEncodingException
      *                          occurs
      */
-    public static AES256Crypter getInstance(String key) throws CrypterException {
+    public static AESCrypter getInstance(String key) throws CrypterException {
         if (key == null) {
             throw new CrypterException(KEY_CANNOT_BE_NULL);
         }
 
         if (INSTANCE == null) {
-            INSTANCE = new AES256Crypter(key);
+            INSTANCE = new AESCrypter(key);
         }
         return INSTANCE;
     }
 
-    private AES256Crypter(String key) throws CrypterException {
+    private AESCrypter(String key) throws CrypterException {
         try {
             cipher = getCipher();
             secretKeySpec = getKey(buildKey(key));
@@ -110,10 +110,10 @@ public class AES256Crypter implements Crypter {
             encryptedBytes = cipher.doFinal(plainText.getBytes(ENCODING));
 
             // Join IV + encrypted text
-            int totalLength = cipher.getBlockSize() + encryptedBytes.length;
+            int totalLength = getBlockSize() + encryptedBytes.length;
             final byte[] finalEncryptedBytes = new byte[totalLength];
-            System.arraycopy(ivSpec.getIV(), 0, finalEncryptedBytes, 0, cipher.getBlockSize());
-            System.arraycopy(encryptedBytes, 0, finalEncryptedBytes, cipher.getBlockSize(), encryptedBytes.length);
+            System.arraycopy(ivSpec.getIV(), 0, finalEncryptedBytes, 0, getBlockSize());
+            System.arraycopy(encryptedBytes, 0, finalEncryptedBytes, getBlockSize(), encryptedBytes.length);
 
             encryptedString = new String(Base64.encodeBase64(finalEncryptedBytes), ENCODING);
         } catch (InvalidKeyException e) {
@@ -146,11 +146,11 @@ public class AES256Crypter implements Crypter {
             byte[] cryptedTextBytes = Base64.decodeBase64(cryptedText.getBytes(ENCODING));
 
             // Split IV from text
-            byte[] ivBytes = new byte[cipher.getBlockSize()];
-            int cryptedTextBytesLength = cryptedTextBytes.length - cipher.getBlockSize();
+            byte[] ivBytes = new byte[getBlockSize()];
+            int cryptedTextBytesLength = cryptedTextBytes.length - getBlockSize();
             byte[] finalCryptedTextBytes = new byte[cryptedTextBytesLength];
-            System.arraycopy(cryptedTextBytes, 0, ivBytes, 0, cipher.getBlockSize());
-            System.arraycopy(cryptedTextBytes, cipher.getBlockSize(), finalCryptedTextBytes, 0, cryptedTextBytesLength);
+            System.arraycopy(cryptedTextBytes, 0, ivBytes, 0, getBlockSize());
+            System.arraycopy(cryptedTextBytes, getBlockSize(), finalCryptedTextBytes, 0, cryptedTextBytesLength);
             IvParameterSpec ivParameterSpec = getIvParameterSpec(ivBytes);
 
             cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
@@ -171,14 +171,18 @@ public class AES256Crypter implements Crypter {
      *
      * @param key String needed to construct the binary key
      *
-     * @return a binary key of 32 bits
+     * @return a binary key of 16 bits
      */
     private byte[] buildKey(String key) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digester = MessageDigest.getInstance(PASS_HASH_ALGORITHM);
         digester.update(key.getBytes(ENCODING));
-        byte[] keyBytes = new byte[16];
+        byte[] keyBytes = new byte[getBlockSize()];
         System.arraycopy(digester.digest(), 0, keyBytes, 0, keyBytes.length);
         return keyBytes;
+    }
+
+    private int getBlockSize() {
+        return cipher.getBlockSize();
     }
 
     /**
@@ -198,13 +202,13 @@ public class AES256Crypter implements Crypter {
      * @return random byte array generated.
      */
     private byte[] createRandomIvBytes() {
-        byte[] iv = new byte[cipher.getBlockSize()];
+        byte[] iv = new byte[getBlockSize()];
         new SecureRandom().nextBytes(iv);
         return iv;
     }
 
     /**
-     * Gets the instance of a AES256 cipher.
+     * Gets the instance of a AES cipher.
      *
      * @return an instance of {@link Cipher}.
      */
