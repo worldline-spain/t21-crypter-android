@@ -171,7 +171,7 @@ public class AESCrypter implements Crypter {
      *
      * @param key String needed to construct the binary key
      *
-     * @return a binary key of 16 bits
+     * @return a binary key of 128 bits
      */
     private byte[] buildKey(String key) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest digester = MessageDigest.getInstance(PASS_HASH_ALGORITHM);
