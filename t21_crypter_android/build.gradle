@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
 
 version = "1.0.4"
 def siteUrl = 'https://github.com/worldline-spain/t21-crypter-android'      // Homepage URL of the library
@@ -33,22 +33,13 @@ android {
     }
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "T21Crypt"
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
+publish {
+    userOrg = 'worldline-spain'
+    groupId = 'com.tempos21.t21crypt'
+    artifactId = 't21_crypter_android'
+    publishVersion = '1.0.4'
+    desc = 'Android String crypter. Used for encryption of tokens'
+    website = 'https://github.com/worldline-spain/t21-crypter-android'
 }
 
 install {
