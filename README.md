@@ -14,6 +14,34 @@ Tipically used for token encryption, if you want to secure your application and 
 
 Not avaible NOW... waiting for jcenter team...
 
+## Usage:
+
+Encryption:
+
+```java
+/**
+ * This key should be dynamic
+ */
+private static final String KEY_TOKEN = "RANDOM_STRING";
+
+String textToEncrypt = "whatIWantToCrypt1234";
+final Crypter crypter = CrypterFactory.buildCrypter(CryptMethod.AES, KEY_TOKEN);
+String encryptedText = crypter.encrypt(textToEncrypt);
+```
+
+Decryption:
+
+```java
+/**
+ * This key should be dynamic
+ */
+private static final String KEY_TOKEN = "RANDOM_STRING";
+
+String textToDecrypt = "rAvceqEKRR3uG7jltp7EccfMobmipUgvp142pnmQB2g=";
+final Crypter crypter = CrypterFactory.buildCrypter(CryptMethod.AES, KEY_TOKEN);
+String decryptedText = crypter.encrypt(textToDecrypt);
+```
+
 # Contributing to the project
 
 Feel free to report any issues or suggest new features.
