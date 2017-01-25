@@ -57,7 +57,7 @@ private static final String KEY_TOKEN = "RANDOM_STRING";
 
 String textToDecrypt = "rAvceqEKRR3uG7jltp7EccfMobmipUgvp142pnmQB2g=";
 final Crypter crypter = CrypterFactory.buildCrypter(CryptMethod.AES, KEY_TOKEN);
-String decryptedText = crypter.encrypt(textToDecrypt);
+String decryptedText = crypter.decrypt(textToDecrypt);
 ```
 
 # Contributing to the project
