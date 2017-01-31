@@ -16,9 +16,9 @@ public class CrypterFactory {
      * Builds a {@link Crypter} based on the {@link CryptMethod} specified.
      *
      * @param method {@link CryptMethod} to construct the {@link Crypter}
-     * @param key String key that will be used to encrypt and decrypt.
-     *
+     * @param key    String key that will be used to encrypt and decrypt.
      * @return an implementation of {@link Crypter}
+     * @throws CrypterException Throws CrypterException
      */
     public static Crypter buildCrypter(CryptMethod method, String key) throws CrypterException {
         Crypter crypter = null;
@@ -40,6 +40,7 @@ public class CrypterFactory {
      *
      * @param method {@link CryptMethod} to construct the {@link Crypter}
      * @return an implementation of {@link Crypter}
+     * @throws CrypterException Throws CrypterException
      */
     public static OldCrypter buildCrypter(CryptMethod method) throws CrypterException {
         OldCrypter crypter = null;

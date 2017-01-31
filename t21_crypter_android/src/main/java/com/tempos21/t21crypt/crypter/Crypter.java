@@ -12,8 +12,8 @@ public interface Crypter {
      * Encrypts a String with the passed key
      *
      * @param plainText String to be encrypted
-     *
      * @return String encrypted based on the key and plainText
+     * @throws EncrypterException Throws EncrypterException
      */
     String encrypt(String plainText) throws EncrypterException;
 
@@ -21,8 +21,8 @@ public interface Crypter {
      * Decrypts a String with the passed key
      *
      * @param cryptedText String to be decrypted
-     *
      * @return String decrypted based on the key and cryptedText
+     * @throws DecrypterException Throws DecrypterException
      */
     String decrypt(String cryptedText) throws DecrypterException;
 }

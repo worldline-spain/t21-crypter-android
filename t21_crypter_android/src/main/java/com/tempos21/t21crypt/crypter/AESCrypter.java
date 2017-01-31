@@ -21,7 +21,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
- * AES Crypter. Encrypts and decrypts a string based on a key.</br></br>
+ * AES Crypter. Encrypts and decrypts a string based on a key.
  *
  * This class needs a key in order to encrypt and decrypt the String, this key can be any length
  * and the complexity of it is up to the user. We recommend a key of 15 chars length with lower and upper case, numbers and

@@ -10,14 +10,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * AES256 Crypter. Encrypts and decrypts a string based on a key.</br></br>
- * <p/>
- * This class needs a key in order to encrypt and decrypt the String, this key can be any length
- * and
- * </br>
- * the complexity of it is up to the user. We recommend a key of 15 chars length with lower and
- * </br>
- * upper case, numbers and special characters.
+ * AES256 Crypter. Encrypts and decrypts a string based on a key.
+ * This class needs a key in order to encrypt and decrypt the String,
+ * this key can be any length and the complexity of it is up to the user.
+ * We recommend a key of 15 chars length with lower and upper case, numbers and special characters.
  */
 public class AES256Crypter implements OldCrypter {
 
