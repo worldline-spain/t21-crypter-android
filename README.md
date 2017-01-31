@@ -17,17 +17,17 @@ Tipically used for token encryption, if you want to secure your application and 
 dependency>
   <groupId>com.tempos21.t21crypt</groupId>
   <artifactId>t21_crypter_android</artifactId>
-  <version>1.0.4</version>
+  <version>1.0.5</version>
   <type>pom</type>
 </dependency>
 ````
 - Gradle
 ```xml
-compile 'com.tempos21.t21crypt:t21_crypter_android:1.0.4'
+compile 'com.tempos21.t21crypt:t21_crypter_android:1.0.5'
 ```
 - Ivy
 ```xml
-<dependency org='com.tempos21.t21crypt' name='t21_crypter_android' rev='1.0.4'>
+<dependency org='com.tempos21.t21crypt' name='t21_crypter_android' rev='1.0.5'>
   <artifact name='$AID' ext='pom'></artifact>
 </dependency>
 ```
