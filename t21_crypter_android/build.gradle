@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.novoda.bintray-release' // must be applied after your artifact generating plugin (eg. java / com.android.library)
 
 version = "1.0.5"
@@ -40,37 +39,6 @@ publish {
     publishVersion = '1.0.5'
     desc = 'Android String crypter. Used for encryption of tokens'
     website = 'https://github.com/worldline-spain/t21-crypter-android'
-}
-
-install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'aar'
-                name 'Android String crypter. Used for encryption of tokens'
-                url siteUrl
-                licenses {
-                    license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'Worldline'
-                        name 'Worldline.com'
-                        email 'info.tempos21@gmail.com'
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-
-                }
-            }
-        }
-    }
 }
 
 dependencies {
