@@ -1,5 +1,7 @@
 # T21 Crypter Library for Android
 
+[![Bintray](https://api.bintray.com/packages/worldline-spain/maven/t21_crypter_android/images/download.svg)](https://bintray.com/worldline-spain/maven/t21_crypter_android/_latestVersion)
+
 This library allows to encrypt and decrypt sensible data in your applications.
 Tipically used for token encryption, if you want to secure your application and ensure anyone can steal the token of your users, you should use this library.
 
